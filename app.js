@@ -3,6 +3,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./src/swagger.json')
+const cors = require('cors')
 
 require('dotenv').config()
 
@@ -18,21 +21,24 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => console.log('Database connected'))
 	.catch(e => console.log(e))
 
-// motor de plantillas
+// motor de plantillas del lado del server
 app.set('view engine', 'ejs')
 
-app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/src/views')
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/src/public'))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+// cors
+app.use(cors())
 
 // Rutas Web
-app.use('/', require('./router/RutasWeb'))
-app.use('/mascotas', require('./router/Mascotas'))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: false, tryItOutEnabled: false }))
+app.use('/', require('./src/router/RutasWeb'))
+app.use('/mascotas', require('./src/router/Mascotas'))
 
 app.use((req, res, next) => {
 	res.status(404).render('404', {

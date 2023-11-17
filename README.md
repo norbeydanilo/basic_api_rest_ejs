@@ -49,4 +49,27 @@ Additionally this project uses:
 - [body-parser](https://www.npmjs.com/package/body-parser)
 - [Dotenv](https://www.npmjs.com/package/dotenv)
 - [Eslint](https://eslint.org)
+- [Swagger](https://swagger.io)
 
+### Uso de Swagger
+
+Para utilizar el archivo `swagger.json` en tu aplicación, necesitarás instalar el paquete `swagger-ui-express`. Este paquete te permitirá servir la documentación de Swagger directamente desde tu aplicación Express.
+
+Primero, instala `swagger-ui-express` con el siguiente comando:
+
+```bash
+npm install swagger-ui-express
+```
+
+Luego, en tu archivo `app.js`, necesitarás requerir `swagger-ui-express` y tu archivo `swagger.json`. Asegúrate de ajustar la ruta a `swagger.json` según sea necesario. Aquí hay un ejemplo de cómo hacerlo:
+
+```javascript
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+```
+
+Con esto, podrás acceder a la documentación de Swagger en la ruta `/api-docs` de tu aplicación.
+
+Por favor, ten en cuenta que este es un ejemplo básico y puedes necesitar ajustarlo según tus necesidades. Por ejemplo, puedes querer agregar autenticación a la ruta de la documentación de Swagger, o puedes tener otros middlewares que necesiten ser configurados. Te recomiendo que consultes la [documentación de `swagger-ui-express`](https://www.npmjs.com/package/swagger-ui-express) para obtener más detalles.

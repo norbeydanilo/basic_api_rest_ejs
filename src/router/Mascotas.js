@@ -6,11 +6,10 @@ const Mascota = require('../models/mascotas')
 router.get('/', async (req, res) => {
 	try {
 		const arrayMascotasDB = await Mascota.find() // Mongoose method
-		// console.log(arrayMascotasDB)
+		console.log(arrayMascotasDB)
 
-		res.render('mascotas', {
-			arrayMascotas: arrayMascotasDB
-		})
+		res.render('mascotas', { status: 'success', arrayMascotas: arrayMascotasDB })
+
 	} catch (error) {
 		console.log(error)
 	}
@@ -22,6 +21,7 @@ router.post('/', async (req, res) => {
 	try {
 		const mascotaDB = new Mascota(body)
 		await mascotaDB.save() // Mongoose method
+
 		res.redirect('/mascotas')
 	} catch (error) {
 		console.log('error', error)
@@ -34,10 +34,10 @@ router.post('/', async (req, res) => {
   const body = req.body
   console.log(body)
   try {
-    await Mascota.create(body)
-    res.redirect('/mascotas')
+	await Mascota.create(body)
+	res.redirect('/mascotas')
   } catch (error) {
-    console.log('error', error)
+	console.log('error', error)
   }
 })
 */
@@ -46,13 +46,14 @@ router.get('/:id', async (req, res) => {
 	const id = req.params.id
 	try {
 		const mascotaDB = await Mascota.findOne({ _id: id }) // Mongoose method
-		// console.log(mascotaDB)
+		console.log(mascotaDB)
+
 		res.render('detalle', {
 			mascota: mascotaDB,
 			error: false
 		})
 	} catch (error) {
-		console.log('erroooooooooorrr', error)
+		console.log('Error', error)
 		res.render('detalle', {
 			error: true,
 			mensaje: 'No se encuentra el documento...'
@@ -70,13 +71,13 @@ router.delete('/:id', async (req, res) => {
 		// https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
 		// res.redirect('/mascotas')
 		if (!mascotaDB) {
-			res.json({
+			res.status(404).json({
 				elemento: id,
 				estado: false,
 				mensaje: 'no se ha podido eliminar'
 			})
 		} else {
-			res.json({
+			res.status(200).json({
 				elemento: id,
 				estado: true,
 				mensaje: 'eliminado!'
@@ -99,14 +100,14 @@ router.put('/:id', async (req, res) => {
 			id, body, { useFindAndModify: false }
 		)
 		console.log(mascotaDB)
-		res.json({
+		res.status(200).json({
 			elemento: id,
 			estado: true,
 			mensaje: 'ha sido editado'
 		})
 	} catch (error) {
 		console.log(error)
-		res.json({
+		res.status(404).json({
 			elemento: id,
 			estado: false,
 			mensaje: 'no ha sido editado'

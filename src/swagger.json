@@ -1,0 +1,220 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Node.js con Express y MongoDB",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:{port}",
+        "description": "Servidor local",
+        "variables": {
+          "port": {
+            "default": "3800"
+          }
+        }
+      }
+    ],
+    "paths": {
+      "/mascotas": {
+        "get": {
+          "summary": "Obtiene todas las mascotas",
+          "responses": {
+            "200": {
+              "description": "Operación exitosa",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Mascota"
+                    }
+                  },
+                  "examples": {
+                    "example1": {
+                      "value": [
+                        {
+                          "_id": "60d6c47af753f941b0b010fb",
+                          "nombre": "Firulais",
+                          "descripcion": "Un perro muy juguetón"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crea una nueva mascota",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mascota"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "nombre": "Firulais",
+                      "descripcion": "Un perro muy juguetón"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "description": "Mascota creada exitosamente"
+            },
+            "400": {
+              "description": "Error al crear la mascota"
+            }
+          }
+        }
+      },
+      "/mascotas/{id}": {
+        "get": {
+          "summary": "Obtiene una mascota por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "example1": {
+                  "value": "60d6c47af753f941b0b010fb"
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Operación exitosa",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Mascota"
+                  },
+                  "examples": {
+                    "example1": {
+                      "value": {
+                        "_id": "60d6c47af753f941b0b010fb",
+                        "nombre": "Firulais",
+                        "descripcion": "Un perro muy juguetón"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Mascota no encontrada"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Elimina una mascota por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "example1": {
+                  "value": "60d6c47af753f941b0b010fb"
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Mascota eliminada exitosamente"
+            },
+            "404": {
+              "description": "Mascota no encontrada"
+            }
+          }
+        },
+        "put": {
+          "summary": "Actualiza una mascota por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "example1": {
+                  "value": "60d6c47af753f941b0b010fb"
+                }
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mascota"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "nombre": "Firulais",
+                      "descripcion": "Un perro muy tranquilo"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mascota actualizada exitosamente"
+            },
+            "404": {
+              "description": "Mascota no encontrada"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Mascota": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "ID de la mascota"
+            },
+            "nombre": {
+              "type": "string",
+              "description": "Nombre de la mascota"
+            },
+            "descripcion": {
+              "type": "string",
+              "description": "Descripción de la mascota"
+            }
+          },
+          "required": ["nombre", "descripcion"]
+        }
+      }
+    }
+  }
+  
