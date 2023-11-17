@@ -48,6 +48,7 @@ Additionally this project uses:
 - [Nodemon](https://nodemon.io)
 - [body-parser](https://www.npmjs.com/package/body-parser)
 - [Dotenv](https://www.npmjs.com/package/dotenv)
+- [Cors](https://www.npmjs.com/package/cors)
 - [Eslint](https://eslint.org)
 - [Swagger](https://swagger.io)
 
